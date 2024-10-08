@@ -15,25 +15,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-        // Creamos un usuario
-        // User::factory()->create([
-        //     'name' => 'Dab',
-        //     'email' => 'da.b@hotmail.es',
-        //     'password' => bcrypt('123.324A'),
-        //     'profile_picture' => 'https://img.freepik.com/foto-gratis/retrato-hombre-blanco-aislado_53876-40306.jpg',
-        //     'bio' => 'Un tio guay que pasa lorem ipsum jejejej',
-        //     'wallet_address' => '0xe8f04c75b331c309987d161f2ec1bec32170437a',
-        //     'social_links' => json_encode(['https://wwww.facebook.com/db360', 'https://wwww.twitter.com/db360', 'https://wwww.linkedin.com/db360']),
-        //     'email_verified_at' => time()
-        // ]);
+        // Crear 10 usuarios
+        User::factory(10)->create()->each(function ($user) {
+            // Crear 4 álbumes por usuario
+            Album::factory(4)->create(['user_id' => $user->id])->each(function ($album) use ($user) {
+                // Inicializar el track_number en 1 para cada álbum
+                $trackNumber = 1;
 
-        User::factory(10)->create()->each(function ($user){
-            Album::factory(4)->create(['user_id' => $user->id])->each(function ($album) use ($user){
-                Song::factory(5)->create([
-                    'album_id' => $album->id,
-                    'user_id' => $user->id
-                ]);
+                // Crear 5 canciones por álbum
+                foreach (range(1, 5) as $index) {
+                    Song::factory()->create([
+                        'album_id' => $album->id,
+                        'user_id' => $user->id,
+                        'track_number' => $trackNumber++  // Incrementar el track_number para cada canción del álbum
+                    ]);
+                }
             });
         });
     }

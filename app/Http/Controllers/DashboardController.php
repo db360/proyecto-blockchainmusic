@@ -22,7 +22,5 @@ class DashboardController extends Controller
             'user' => $user,
             'albums' => $albums
         ]);
-
-
     }
 }

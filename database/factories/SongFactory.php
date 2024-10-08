@@ -20,13 +20,15 @@ class SongFactory extends Factory
      */
     public function definition(): array
     {
+
+
         return [
             'album_id' => Album::factory(),
             'user_id' => User::factory(),
             'title' => $this->faker->sentence(),
             'file_url' => $this->faker->url(),
             'duration' => $this->faker->time(),
-            'price' => $this->faker->randomFloat(2, 1, 50),
+            'price' => $this->faker->randomFloat(2, 1, 20),
         ];
     }
 }

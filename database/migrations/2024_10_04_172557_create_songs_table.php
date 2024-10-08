@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('file_url');
             $table->time('duration'); // Para almacenar la duración de la canción
+            $table->integer('track_number'); // El numero de la cancion en el album
             $table->decimal('price', 8, 2)->nullable();
             $table->timestamps();
         });
