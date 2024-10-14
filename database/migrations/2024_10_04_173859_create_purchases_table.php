@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Usuario que compra
+            $table->foreignId('album_id')->nullable()->constrained()->onDelete('cascade'); // Álbum que compra
+            $table->foreignId('song_id')->nullable()->constrained()->onDelete('cascade'); // Usuario que compra
+            $table->string('transaction_id')->unique();
+            $table->decimal('amount', 8, 2);
             $table->timestamps();
         });
     }

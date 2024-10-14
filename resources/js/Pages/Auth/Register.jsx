@@ -59,6 +59,19 @@ export default function Register() {
 
                     <InputError message={errors.email} className="mt-2" />
                 </div>
+                <div className="mt-4">
+                    <InputLabel htmlFor="role" value="Role" />
+
+                    <select className='py-1 mt-1 rounded-lg' name="role" id="role" onChange={(e) =>
+                            setData('role', e.target.value)
+                        }
+                        required>
+                        <option value="artist">Artist</option>
+                        <option value="user">User</option>
+                    </select>
+
+                    <InputError message={errors.email} className="mt-2" />
+                </div>
 
                 <div className="mt-4">
                     <InputLabel htmlFor="password" value="Password" />
