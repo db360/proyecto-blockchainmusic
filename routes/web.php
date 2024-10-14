@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -22,6 +23,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
 // Show Album Controller
 Route::get('/album/{id}', [AlbumController::class, 'showAlbum'])->name('dashboard.showAlbum');
 
+// Register-Edit Controller
+Route::get('/register-edit', [AccountTypeController::class, 'showForm'])->name('register-edit');
+Route::post('/register-edit', [AccountTypeController::class, 'store']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

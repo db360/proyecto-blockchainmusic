@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SocialLogin;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -31,35 +28,19 @@ class SocialLoginController extends Controller
             return redirect()->intended('dashboard');
         }
 
-        $dbUser = User::where('email', $user->getEmail())->first();
 
-        if ($dbUser) {
-            SocialLogin::create([
-                'provider' => $driver,
-                'provider_id' => $user->getId(),
-                'user_id' => $dbUser->id
-            ]);
-            // If doesn't exist
-        } else {
-            
-            $dbUser = User::create([
+        session([
+
+            'social_user' => [
                 'name' => $user->getName() ?? $user->getNickname(),
                 'email' => $user->getEmail(),
-                'password' => Hash::make('password'),
-                'profile_picture' => $user->getAvatar(),
-            ]);
-
-            SocialLogin::create([
-                'provider' => $driver,
                 'provider_id' => $user->getId(),
-                'user_id' => $dbUser->id
-            ]);
-        }
+                'avatar' => $user->getAvatar(),
+                'provider' => $driver,
+            ]
+        ]);
 
-        Auth::login($dbUser);
+        return redirect()->route('register-edit');
 
-        Session::regenerate();
-
-        return redirect()->intended('dashboard');
     }
 }
