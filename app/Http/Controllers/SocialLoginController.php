@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\SocialLogin;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialLoginController extends Controller
 {
-    public function toProvider($driver)
+    public function toProvider($driver): RedirectResponse
     {
         return Socialite::driver($driver)->redirect();
     }
-    public function handleCallback($driver)
+    public function handleCallback($driver): RedirectResponse
     {
         // Taking User data thru callback
         $user = Socialite::driver($driver)->user();

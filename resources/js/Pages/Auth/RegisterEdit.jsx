@@ -1,5 +1,7 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, useForm } from "@inertiajs/react";
@@ -7,7 +9,8 @@ import { Head, useForm } from "@inertiajs/react";
 export default function RegisterEdit() {
     const { data, setData, post, processing, errors, reset } = useForm({
         role: "",
-        password: ""
+        password: "",
+        password_confirmation: ""
     });
 
     const submit = (e) => {
@@ -20,25 +23,27 @@ export default function RegisterEdit() {
 
     return (
         <GuestLayout>
-            <Head title="Select Account Type" />
+            <Head title="Tipo de Cuenta - Password" />
 
             <form onSubmit={submit}>
                 <div className="">
-                    <label className="text-gray-300" htmlFor="role">
-                        Elija el tipo de cuenta:
-                    </label>
-                    <select
+                    <InputLabel htmlFor="role" value="Tipo de cuenta:"/>
+                    <SelectInput
                         name="role"
                         id="role"
-                        onChange={(e) => setData("role", e.target.value)}
-                        value={data.role}
+                        value={data.role || ""}
+                        onChange={(e) => setData('role', e.target.value)}
+                        className="mt-1 block w-full"
                     >
                         <option value="">Seleccione..</option>
                         <option value="artist">Artista</option>
                         <option value="user">Usuario</option>
-                    </select>
-                    {errors.role && <div className="text-red-500">{errors.role}</div>} {/* Mostrar errores */}
+
+                    </SelectInput>
+                    <InputError message={errors.role} className="mt-2"/>
                 </div>
+
+
                 <div className="mt-4">
                     <InputLabel htmlFor="password" value="Password" />
 
@@ -46,7 +51,7 @@ export default function RegisterEdit() {
                         id="password"
                         type="password"
                         name="password"
-                        value={data.password}
+                        value={data.password || ""}
                         className="mt-1 block w-full"
                         autoComplete="new-password"
                         onChange={(e) => setData('password', e.target.value)}
@@ -80,13 +85,11 @@ export default function RegisterEdit() {
                         className="mt-2"
                     />
                 </div>
-                <button
-                    type="submit"
-                    className="bg-white text-black py-1 px-2 mt-4"
-                    disabled={processing}
-                >
+
+                <PrimaryButton className="mt-4" disabled={processing} type="submit">
                     Continuar
-                </button>
+                </PrimaryButton>
+
             </form>
         </GuestLayout>
     );

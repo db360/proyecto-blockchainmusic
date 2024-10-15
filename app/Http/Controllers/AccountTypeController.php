@@ -6,6 +6,7 @@ use App\Models\SocialLogin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 
 class AccountTypeController extends Controller
@@ -16,7 +17,9 @@ class AccountTypeController extends Controller
 
     public function store(Request $request) {
         $request->validate([
-            'role' => 'required|in:artist,user'
+            'role' => 'required|in:artist,user',
+            'password' => ['required', 'confirmed', Password::defaults()],
+
         ]);
 
         $socialUser = session('social_user');
