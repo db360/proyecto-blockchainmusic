@@ -17,7 +17,7 @@ export default function Dashboard({ user, albums }) {
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    My Albums
+                    {user.role === 'artist' ? 'My Albums' : 'Mis Compras'}
                 </h2>
             }
         >
