@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Firebase\UploadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialLoginController;
 use Illuminate\Foundation\Application;
@@ -36,5 +37,10 @@ Route::middleware('auth')->group(function () {
 // Socialite Router
 Route::get('/socialite/{driver}', [SocialLoginController::class, 'toProvider'])->where('driver', 'github|google');
 Route::get('/auth/{driver}/login', [SocialLoginController::class, 'handleCallback'])->where('driver', 'github|google');
+
+// Upload Route
+
+Route::get('/upload', [UploadController::class, 'uploadForm'])->name('albums.uploadAlbum');
+Route::post('/upload', [UploadController::class, 'upload'])->name('albums.upload');
 
 require __DIR__ . '/auth.php';

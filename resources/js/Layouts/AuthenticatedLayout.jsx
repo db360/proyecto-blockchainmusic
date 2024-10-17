@@ -30,6 +30,12 @@ export default function Authenticated({ header, children }) {
                                 >
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    href={route('albums.uploadAlbum')}
+                                    active={route().current('albums.uploadAlbum')}
+                                >
+                                    Upload
+                                </NavLink>
                             </div>
                         </div>
 
