@@ -12,12 +12,13 @@ class FirebaseServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('firebase', function($app) {
+        // Registrar la instancia de Firebase Storage en el contenedor de servicios
+        $this->app->singleton('firebase', function ($app) {
+            $app = (new Factory)
+                ->withServiceAccount(config('firebase.path'))
+                ->withDefaultStorageBucket(config('firebase.storage_bucket')); // Asegúrate de que este campo esté en tu configuración
 
-            return (new Factory)
-            ->withServiceAccount(config('firebase.path'))
-            ->createStorage();
-
+            return $app->createStorage();
         });
     }
 

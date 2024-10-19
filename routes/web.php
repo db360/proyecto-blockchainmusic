@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Firebase\UploadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialLoginController;
+use App\Http\Middleware\CheckArtistRole;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -41,6 +42,6 @@ Route::get('/auth/{driver}/login', [SocialLoginController::class, 'handleCallbac
 // Upload Route
 
 Route::get('/upload', [UploadController::class, 'uploadForm'])->name('albums.uploadAlbum');
-Route::post('/upload', [UploadController::class, 'upload'])->name('albums.upload');
+Route::post('/upload', [UploadController::class, 'upload'])->name('albums.upload')->middleware(CheckArtistRole::class);
 
 require __DIR__ . '/auth.php';

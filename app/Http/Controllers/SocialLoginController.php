@@ -38,7 +38,7 @@ class SocialLoginController extends Controller
                 'provider_id' => $user->getId(),
                 'avatar' => $user->getAvatar(),
                 'provider' => $driver,
-            ]
+             ]
         ]);
 
         return redirect()->route('register-edit');

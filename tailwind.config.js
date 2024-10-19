@@ -17,6 +17,9 @@ export default {
             },
         },
     },
+    variants: {
+        fill: ['hover', 'focus'], // this line does the trick
+      },
 
     plugins: [forms],
 };

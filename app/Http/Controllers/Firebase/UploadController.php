@@ -4,39 +4,64 @@ namespace App\Http\Controllers\Firebase;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Kreait\Firebase\Factory;
-use Kreait\Firebase\Storage;
+
 
 class UploadController extends Controller
 {
     protected $storage;
 
-    public function __construct(){
-        $this->storage = app('firebase');
-    }
 
-    public function uploadForm() {
+    public function uploadForm()
+    {
         return Inertia::render('Dashboard/UploadAlbum');
     }
 
-    public function upload(Request $request){
+    public function upload(Request $request)
+    {
+
+        // dd($request->file('files'));
+
+        if(!Auth::check()) {
+            return redirect()->back()->withErrors(['error' => 'No estás autentificado']);
+        }
+
+        $userId = Auth::user()->getAuthIdentifier();
+
 
 
         $request->validate([
-            'file' => 'required|file|max:10240',
+            'titles.*' => 'required|string|max:255',
+            'files.*' => 'required|file|max:10240',
         ]);
 
-        $file = $request->file('file');
-        $path = 'uploads/' . $file->getClientOriginalName();
+        $filePaths = [];
 
-        // Upload
 
-        dd($this->storage->getBucket()->upload(
-            fopen($file->getRealPath(), 'r'),
-            ['name' => $path]
-        ));
+        $firebase = (new Factory)->withServiceAccount(config('firebase.path'))->withDefaultStorageBucket(config('firebase.storage_bucket'));
 
-        return response()->json(['success' => true, 'path' => $path]);
+        // dd(config('firebase.storage_bucket'));
+        $storage = $firebase->createStorage()->getBucket(config('firebase.storage_bucket'));
+
+        foreach ($request->file('files') as $index => $file) {
+           // Generamos un nombre único para cada archivo
+           $fileName = time() . '_' . $file->getClientOriginalName();
+           $filePath = 'uploads/' . $userId . '/' . $fileName;
+
+           // Subimos el archivo al bucket de Firebase
+           $storage->upload(fopen($file->getPathname(), 'r'), [
+               'name' => $filePath
+           ]);
+
+           // Guardamos los títulos y rutas
+           $filePaths[] = [
+               'title' => $request->titles[$index],
+               'path' => $filePath
+           ];
+        }
+
+        redirect()->route('dashboard')->with($filePaths);
     }
 }

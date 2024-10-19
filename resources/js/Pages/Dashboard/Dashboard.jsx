@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 
-export default function Dashboard({ user, albums }) {
+export default function Dashboard({ user, albums, success }) {
 
         // Función para formatear la fecha a formato español
         const formatFecha = (fecha) => {
@@ -23,6 +23,7 @@ export default function Dashboard({ user, albums }) {
         >
             <Head title="Dashboard" />
 
+            {!success ?? <h1 className="text-green-500">OK</h1>}
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
