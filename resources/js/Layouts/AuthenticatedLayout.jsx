@@ -33,6 +33,17 @@ export default function Authenticated({ header, children }) {
 
                                 {user.role === "artist" ? (
                                     <NavLink
+                                        href={route("albums.explorer")}
+                                        active={route().current(
+                                            "albums.explorer"
+                                        )}
+                                    >
+                                        Explorar
+                                    </NavLink>
+                                ): null}
+
+                                {user.role === "artist" ? (
+                                    <NavLink
                                         href={route("albums.uploadAlbum")}
                                         active={route().current(
                                             "albums.uploadAlbum"

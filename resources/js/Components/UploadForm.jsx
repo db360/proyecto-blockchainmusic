@@ -8,6 +8,7 @@ import DeleteIcon from "./icons/DeleteIcon";
 
 export default function UploadForm() {
     const { data, setData, post, processing, errors } = useForm({
+        album_title: "",
         files: [], // Agregamos un campo para los archivos
         titles: [],
     });
@@ -42,6 +43,8 @@ export default function UploadForm() {
         data.files.forEach((file, index) => {
             formData.append("files[]", file); // Añadir los archivos al FormData
             formData.append(`titles[]`, data.titles[index]);
+            formData.append(`album_title`, album_title);
+
         });
 
         // Enviar como PUT utilizando _method
@@ -55,6 +58,21 @@ export default function UploadForm() {
     return (
         <GuestLayout noLogo title={"Nuevo Album"} mt5 w80>
             <form onSubmit={handleSubmit} encType="multipart/form-data">
+                <div>
+                    <InputLabel htmlFor="album_title" value="Título del album" />
+                    <TextInput
+                        id="album_title"
+                        type="text"
+                        name="album_title"
+                        value={data.album_title || ""}
+                        className="mt-1 block w-full"
+                        autoComplete="album_title"
+                        isFocused={true}
+                        onChange={(e) => setData("album_title", e.target.value)}
+
+                    />
+                    <InputError message={errors.album_title} className="mt-2" />
+                </div>
                 <div>
                     <InputLabel htmlFor="title" value="Título de la canción" />
                     <TextInput

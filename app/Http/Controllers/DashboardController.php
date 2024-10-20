@@ -13,10 +13,9 @@ class DashboardController extends Controller
         $user = Auth::user();
 
         // Get Albums
-        $albums = Album::where('user_id', $user->id)
-                ->with('songs')
-                ->get();
+        $albums = Album::where('user_id', $user->id)->get();
 
+        // dd($albums);
         // Return Inertia Component
         return Inertia::render('Dashboard/Dashboard', [
             'user' => $user,

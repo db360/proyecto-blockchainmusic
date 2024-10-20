@@ -24,6 +24,7 @@ Route::get('/', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 // Show Album Controller
 Route::get('/album/{id}', [AlbumController::class, 'showAlbum'])->name('dashboard.showAlbum');
+Route::post('/album/explore', [AlbumController::class, 'explorer'])->name('album.explorer');
 
 // Register-Edit Controller
 Route::get('/register-edit', [AccountTypeController::class, 'showForm'])->name('register-edit');
