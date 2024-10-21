@@ -5,14 +5,17 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
-export default function Authenticated({ header, children }) {
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
+
+export default function Authenticated({ header, children, urlPlay }) {
     const user = usePage().props.auth.user;
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
             <nav className="border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
@@ -31,11 +34,11 @@ export default function Authenticated({ header, children }) {
                                     Dashboard
                                 </NavLink>
 
-                                {user.role === "artist" ? (
+                                {user.role === "user" ? (
                                     <NavLink
-                                        href={route("albums.explorer")}
+                                        href={route("explorer")}
                                         active={route().current(
-                                            "albums.explorer"
+                                            "explorer"
                                         )}
                                     >
                                         Explorar
@@ -200,6 +203,12 @@ export default function Authenticated({ header, children }) {
             )}
 
             <main>{children}</main>
+            <div className="fixed bottom-0 w-full">
+            <AudioPlayer
+                            autoPlay
+                            src={urlPlay}
+                        />
+            </div>
         </div>
     );
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Firebase\UploadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialLoginController;
+use App\Http\Controllers\SongsController;
 use App\Http\Middleware\CheckArtistRole;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -22,13 +23,15 @@ Route::get('/', function () {
 
 // Dashboard Controller
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/explore', [AlbumController::class, 'explorer'])->name('explorer');
 // Show Album Controller
 Route::get('/album/{id}', [AlbumController::class, 'showAlbum'])->name('dashboard.showAlbum');
-Route::post('/album/explore', [AlbumController::class, 'explorer'])->name('album.explorer');
 
 // Register-Edit Controller
 Route::get('/register-edit', [AccountTypeController::class, 'showForm'])->name('register-edit');
 Route::post('/register-edit', [AccountTypeController::class, 'store']);
+
+Route::get('/playsong', [SongsController::class, 'playSong'])->name('song.play');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -1,9 +1,15 @@
+import PlayButton from "@/Components/icons/PlayButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
+import { useState } from "react";
+
 
 export default function ShowAlbum({ album, user, songs }) {
+
+    const [urlPlay, setURLPlay] = useState("");
     return (
-        <AuthenticatedLayout
+        <AuthenticatedLayout urlPlay={urlPlay}
+
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                     {album.title}
@@ -11,7 +17,7 @@ export default function ShowAlbum({ album, user, songs }) {
             }
         >
             <Head title={album.title} />
-            {console.log(songs)}
+            {/* {console.log(songs)} */}
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -53,18 +59,22 @@ export default function ShowAlbum({ album, user, songs }) {
                                         <th scope="col" className="px-6 py-3">
                                             Title
                                         </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Duration
-                                        </th>
+                                        <th>Duration</th>
                                         <th scope="col" className="px-6 py-3">
                                             Price
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Play
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {songs && songs.length > 0 ? (
                                         songs.map((song) => (
-                                            <tr key={song.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <tr
+                                                key={song.id}
+                                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                                            >
                                                 <th
                                                     scope="row"
                                                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -77,10 +87,20 @@ export default function ShowAlbum({ album, user, songs }) {
                                                 >
                                                     {song.title}
                                                 </th>
+
                                                 <td className="px-6 py-4">
                                                     {song.duration}
                                                 </td>
-                                                <td className="px-6 py-4">{song.price}</td>
+                                                <td className="px-6 py-4">
+                                                    {song.price}
+                                                </td>
+                                                <th
+                                                    scope="row"
+                                                    className="px-6 py-4"
+                                                >
+
+                                                     <button onClick={() => setURLPlay(song.signed_url)}> <PlayButton /></button>
+                                                </th>
                                             </tr>
                                         ))
                                     ) : (
@@ -90,6 +110,7 @@ export default function ShowAlbum({ album, user, songs }) {
                             </table>
                         </div>
                     </div>
+
                 </div>
             </div>
         </AuthenticatedLayout>

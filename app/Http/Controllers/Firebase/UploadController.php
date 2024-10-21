@@ -79,7 +79,9 @@ class UploadController extends Controller
                 'name' => $filePath
             ]);
 
-            Song::create([
+            
+
+            $newSong = Song::create([
                 'album_id' => $albumID,
                 'user_id' => $userId,
                 'duration' => $fileDuration,
@@ -89,11 +91,10 @@ class UploadController extends Controller
                 'price' => 1.5
             ]);
 
-            // if($newSong === null) {
-            //     return redirect('/dashboard')->withErrors(['error' => 'No se pudo crear la cancion en la base de datos']);
-            // }
+            if($newSong === null) {
+                return redirect('/dashboard')->withErrors(['error' => 'No se pudo crear la cancion en la base de datos']);
+            }
 
-            // Guardamos los títulos y rutas
             $filePaths[] = [
                 'title' => $request->titles[$index],
                 'path' => $filePath,
@@ -105,16 +106,5 @@ class UploadController extends Controller
             'id' => $newAlbum->id,
             200
         ])->withInput($filePaths);
-
-        // return Inertia::render(
-        //     "Dashboard/album/{$newAlbum->id}",
-        //     [
-        //         'filepaths' => $filePaths,
-        //         'auth' => [
-        //             'user' => $request->user(),
-        //         ],
-        //         'success' => true,
-        //     ]
-        // );
     }
 }
