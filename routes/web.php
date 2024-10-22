@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Firebase\UploadController;
+use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\SongsController;
@@ -23,6 +24,10 @@ Route::get('/', function () {
 
 // Dashboard Controller
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/historial', [HistorialController::class, 'show'])->middleware(['auth', 'verified'])->name('artist.historial');
+
+
 Route::get('/explore', [AlbumController::class, 'explorer'])->name('explorer');
 // Show Album Controller
 Route::get('/album/{id}', [AlbumController::class, 'showAlbum'])->name('dashboard.showAlbum');

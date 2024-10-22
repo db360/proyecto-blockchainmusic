@@ -1,15 +1,21 @@
-import PlayButton from "@/Components/icons/PlayButton";
+import { useContext } from "react";
+import { AudioPlayerContext } from "@/contexts/AudioPlayerContext";
+
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
-import { useState } from "react";
+import { Head, usePage } from "@inertiajs/react";
+
+import { IoPlayCircleOutline, IoPauseCircleOutline } from "react-icons/io5";
+
+export default function ShowAlbum({ album, songs }) {
+
+    const user = usePage().props.auth.user;
 
 
-export default function ShowAlbum({ album, user, songs }) {
+    const { handlePlayPause, playingSongId, isPlaying } =
+        useContext(AudioPlayerContext);
 
-    const [urlPlay, setURLPlay] = useState("");
     return (
-        <AuthenticatedLayout urlPlay={urlPlay}
-
+        <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                     {album.title}
@@ -66,6 +72,16 @@ export default function ShowAlbum({ album, user, songs }) {
                                         <th scope="col" className="px-6 py-3">
                                             Play
                                         </th>
+                                        {console.log(user.role)}
+                                        {console.log(user.id)}
+                                        {user.role === "user" ? (
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3"
+                                            >
+                                                Buy
+                                            </th>
+                                        ) : null}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -75,18 +91,15 @@ export default function ShowAlbum({ album, user, songs }) {
                                                 key={song.id}
                                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                                             >
-                                                <th
+                                                <td
                                                     scope="row"
                                                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                 >
                                                     {song.track_number}
-                                                </th>
-                                                <th
-                                                    scope="row"
-                                                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                                >
+                                                </td>
+                                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                     {song.title}
-                                                </th>
+                                                </td>
 
                                                 <td className="px-6 py-4">
                                                     {song.duration}
@@ -94,13 +107,28 @@ export default function ShowAlbum({ album, user, songs }) {
                                                 <td className="px-6 py-4">
                                                     {song.price}
                                                 </td>
-                                                <th
-                                                    scope="row"
-                                                    className="px-6 py-4"
-                                                >
-
-                                                     <button onClick={() => setURLPlay(song.signed_url)}> <PlayButton /></button>
-                                                </th>
+                                                <td className="px-6 py-4">
+                                                    <button
+                                                        onClick={() =>
+                                                            handlePlayPause(
+                                                                song
+                                                            )
+                                                        }
+                                                    >
+                                                        {playingSongId ===
+                                                            song.id &&
+                                                        isPlaying ? (
+                                                            <IoPauseCircleOutline className="text-2xl hover:text-orange-500" />
+                                                        ) : (
+                                                            <IoPlayCircleOutline className="text-2xl hover:text-green-500" />
+                                                        )}
+                                                    </button>
+                                                </td>
+                                                {user.role === "user" ? (
+                                                    <td>
+                                                        <button>Buy</button>
+                                                    </td>
+                                                ) : null}
                                             </tr>
                                         ))
                                     ) : (
@@ -110,7 +138,6 @@ export default function ShowAlbum({ album, user, songs }) {
                             </table>
                         </div>
                     </div>
-
                 </div>
             </div>
         </AuthenticatedLayout>

@@ -4,7 +4,8 @@ import TextInput from "./TextInput";
 import PrimaryButton from "./PrimaryButton";
 import InputError from "./InputError";
 import GuestLayout from "@/Layouts/GuestLayout";
-import DeleteIcon from "./icons/DeleteIcon";
+import { MdOutlineDeleteForever } from "react-icons/md";
+
 
 export default function UploadForm() {
     const { data, setData, post, processing, errors } = useForm({
@@ -147,7 +148,7 @@ export default function UploadForm() {
                                                 }
                                                 className="ml-auto"
                                             >
-                                                <DeleteIcon />
+                                                <MdOutlineDeleteForever className="w-12 text-2xl hover:text-red-500 hover:text-3xl transition-all" />
                                             </button>
                                         </td>
                                     </tr>

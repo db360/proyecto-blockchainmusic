@@ -2,19 +2,24 @@ import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
+import { AudioPlayerContext } from "@/contexts/AudioPlayerContext";
 import { Link, usePage } from "@inertiajs/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
-import AudioPlayer from 'react-h5-audio-player';
-import 'react-h5-audio-player/lib/styles.css';
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
 
-export default function Authenticated({ header, children, urlPlay }) {
+export default function Authenticated({ header, children }) {
+
     const user = usePage().props.auth.user;
+
+    const { urlPlay, isPlaying, playerRef, handlePlay, handlePause, handleEnded, titleSongPlaying } = useContext(AudioPlayerContext);
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
     return (
+
         <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
             <nav className="border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -37,15 +42,13 @@ export default function Authenticated({ header, children, urlPlay }) {
                                 {user.role === "user" ? (
                                     <NavLink
                                         href={route("explorer")}
-                                        active={route().current(
-                                            "explorer"
-                                        )}
+                                        active={route().current("explorer")}
                                     >
                                         Explorar
                                     </NavLink>
-                                ): null}
+                                ) : null}
 
-                                {user.role === "artist" ? (
+                                {user.role === "artist" ? (<>
                                     <NavLink
                                         href={route("albums.uploadAlbum")}
                                         active={route().current(
@@ -54,9 +57,15 @@ export default function Authenticated({ header, children, urlPlay }) {
                                     >
                                         Upload
                                     </NavLink>
-                                ): null}
-
-
+                                    <NavLink
+                                        href={route("artist.historial")}
+                                        active={route().current(
+                                            "artist.historial"
+                                        )}
+                                    >
+                                        Historial
+                                    </NavLink>
+                                    </>) : null}
                             </div>
                         </div>
 
@@ -203,11 +212,19 @@ export default function Authenticated({ header, children, urlPlay }) {
             )}
 
             <main>{children}</main>
+
             <div className="fixed bottom-0 w-full">
-            <AudioPlayer
-                            autoPlay
-                            src={urlPlay}
-                        />
+                <div className="h-6 bg-slate-300">
+                    <p className="text-center">{titleSongPlaying}</p>
+                </div>
+                <AudioPlayer
+                    autoPlay={isPlaying} // Hacer autoplay dependiendo del estado
+                    src={urlPlay}
+                    ref={playerRef} // Usar referencia para controlar el reproductor
+                    onPlay={handlePlay} // Para debug o funciones adicionales
+                    onPause={handlePause} // Para debug o funciones adicionales
+                    onEnded={handleEnded}
+                />
             </div>
         </div>
     );
