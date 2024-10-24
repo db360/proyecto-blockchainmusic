@@ -4,17 +4,6 @@ import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { FaPaypal } from "react-icons/fa";
 
 export default function Historial({ albums }) {
-    {
-        // console.log(albums);
-
-        albums.forEach((album, i) => {
-            console.log(album);
-        });
-
-        // albums.songs.forEach(song => {
-        //     console.log(song)
-        // })
-    }
 
     return (
         <Authenticated
@@ -36,7 +25,7 @@ export default function Historial({ albums }) {
                                     Title
                                 </th>
                                 <th className="px-6 py-3">Creation Date</th>
-                                <th className="px-6 py-3">Reproductions</th>
+                                <th className="px-6 py-3 text-center">Reproductions</th>
                                 <th scope="col" className="px-6 py-3">
                                     Revenue
                                 </th>
@@ -51,7 +40,7 @@ export default function Historial({ albums }) {
                         <tbody>
                             {albums.map((album) =>
                                 album.songs.map((song) => (
-                                    <tr  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <tr key={song.id}  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <td scope="row"
                                                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{album.title}</td>
                                         <td scope="row"
@@ -71,12 +60,17 @@ export default function Historial({ albums }) {
                                             })}
                                         </td>
                                         <td scope="row"
-                                                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">1000</td>
+                                                    className="text-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{song.plays_count}</td>
                                         <td scope="row"
                                                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">3.50 €</td>
                                         <td className="flex flex-row items-center justify-around px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            <FaPaypal />
-                                            <MetaMaskIcon />
+                                            <div className="flex gap-2 items-center">
+                                            <FaPaypal /> 20 €
+                                            </div>
+                                            <div  className="flex gap-2 items-center">
+                                            <MetaMaskIcon />25 €
+
+                                            </div>
                                         </td>
                                     </tr>
                                 ))

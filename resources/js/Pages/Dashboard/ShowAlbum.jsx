@@ -6,7 +6,12 @@ import { Head, usePage } from "@inertiajs/react";
 
 import { IoPlayCircleOutline, IoPauseCircleOutline } from "react-icons/io5";
 
+import { TbCash } from "react-icons/tb";
+
+
 export default function ShowAlbum({ album, songs }) {
+
+    console.log(album);
 
     const user = usePage().props.auth.user;
 
@@ -72,8 +77,6 @@ export default function ShowAlbum({ album, songs }) {
                                         <th scope="col" className="px-6 py-3">
                                             Play
                                         </th>
-                                        {console.log(user.role)}
-                                        {console.log(user.id)}
                                         {user.role === "user" ? (
                                             <th
                                                 scope="col"
@@ -125,8 +128,8 @@ export default function ShowAlbum({ album, songs }) {
                                                     </button>
                                                 </td>
                                                 {user.role === "user" ? (
-                                                    <td>
-                                                        <button>Buy</button>
+                                                    <td  className="px-6 py-4">
+                                                        <button><TbCash className="hover:text-green-500 text-center text-2xl"/></button>
                                                     </td>
                                                 ) : null}
                                             </tr>

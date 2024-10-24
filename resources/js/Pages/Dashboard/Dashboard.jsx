@@ -1,19 +1,14 @@
 import AlbumsCards from "@/Components/albums/AlbumCards";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 
-export default function Dashboard({albums, success, error }) {
+export default function Dashboard({ success, error }) {
 
-
-    console.log(albums);
     // Accedemos a los datos enviados desde el servidor
-    const { filepaths, auth } = usePage().props; // Asegúrate de que los nombres coinciden con los que envías desde el controlador
+    const { albums, auth } = usePage().props;
 
     const user = auth.user;
 
-    // // Imprimimos los datos en la consola para verificar
-    console.log("File paths:", filepaths);
-    // console.log("Auth:", auth);
 
 
     return (

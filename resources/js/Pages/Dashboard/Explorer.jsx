@@ -3,9 +3,11 @@ import { Head, usePage } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import AlbumsCards from "@/Components/albums/AlbumCards";
 
+
+
 export default function Explorer({ albums }) {
     const user = usePage().props.auth.user;
-    
+
     console.log(albums);
     return (
         <AuthenticatedLayout

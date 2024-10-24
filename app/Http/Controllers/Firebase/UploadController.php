@@ -37,24 +37,36 @@ class UploadController extends Controller
         $request->validate([
             'titles.*' => 'required|string|max:255',
             'files.*' => 'required|file|max:10240',
+            'image' => 'required|file|max:5000',
             'album_title' => 'required|string|max:100'
         ]);
 
+        // dd($request->all());
+
+        // dd($request->file('image'));
+
         $filePaths = [];
+        $imageCover = $request->file('image');
+
 
         $albumTitle = $request->input('album_title');
         $fechaMySQL = now()->format('Y-m-d H:i:s');
-        $newAlbum = Album::create(['user_id' => $userId, 'title' => $albumTitle, 'cover_image' => 'https://fakeimg.pl/600x400/1bd42e/909090?text=TITULO', 'description' => 'description', 'price' => 10, 'release_date' => $fechaMySQL]);
 
-        // if($newAlbum == null) {
-        //     return redirect('/dashboard')->withErrors(['error' => 'No se pudo crear el album en la base de datos']);
-        // }
-        // dd();
-        $albumID = $newAlbum->id;
-        // FIREBASE STORAGE INSTANCE
 
         $firebase = (new Factory)->withServiceAccount(config('firebase.path'))->withDefaultStorageBucket(config('firebase.storage_bucket'));
         $storage = $firebase->createStorage()->getBucket(config('firebase.storage_bucket'));
+
+
+        $imageCoverName = time() . '_' . $imageCover->getClientOriginalName();
+        $imagePath = 'images/' . $userId . '/' . $imageCoverName;
+        $storage->upload(fopen($imageCover->getPathname(), 'r'), [
+            'name' => $imagePath
+        ]);
+
+        $newAlbum = Album::create(['user_id' => $userId, 'title' => $albumTitle, 'cover_image' => $imagePath, 'description' => 'description', 'price' => 10, 'release_date' => $fechaMySQL]);
+
+        $albumID = $newAlbum->id;
+
 
         // ID3 METADATA
         // Initialize getID3 engine
@@ -72,14 +84,14 @@ class UploadController extends Controller
 
             //Unique Name File
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = 'uploads/' . $userId . '/' . $fileName;
+            $filePath = 'tracks/' . $userId . '/' . $fileName;
 
             // Subimos el archivo al bucket de Firebase
             $storage->upload(fopen($file->getPathname(), 'r'), [
                 'name' => $filePath
             ]);
 
-            
+
 
             $newSong = Song::create([
                 'album_id' => $albumID,
@@ -91,7 +103,7 @@ class UploadController extends Controller
                 'price' => 1.5
             ]);
 
-            if($newSong === null) {
+            if ($newSong === null) {
                 return redirect('/dashboard')->withErrors(['error' => 'No se pudo crear la cancion en la base de datos']);
             }
 
@@ -102,7 +114,7 @@ class UploadController extends Controller
             ];
         }
 
-        return to_route('dashboard.showAlbum',[
+        return to_route('dashboard.showAlbum', [
             'id' => $newAlbum->id,
             200
         ])->withInput($filePaths);

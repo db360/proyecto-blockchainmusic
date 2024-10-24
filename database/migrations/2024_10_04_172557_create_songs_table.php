@@ -20,6 +20,7 @@ return new class extends Migration
             $table->time('duration'); // Para almacenar la duración de la canción
             $table->integer('track_number'); // El numero de la cancion en el album
             $table->decimal('price', 8, 2)->nullable();
+            $table->unsignedBigInteger('plays_count')->default(0);
             $table->timestamps();
         });
     }

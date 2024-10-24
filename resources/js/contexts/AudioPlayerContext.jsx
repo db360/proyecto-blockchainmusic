@@ -1,3 +1,4 @@
+import { router } from "@inertiajs/react";
 import { createContext, useRef, useState } from "react";
 
 export const AudioPlayerContext = createContext();
@@ -21,7 +22,7 @@ export function AudioPlayerProvider({children}) {
             }
             setIsPlaying(!isPlaying); // Alternar el estado de reproducción
         } else {
-            setURLPlay(song.signed_url); // Cambiar la URL
+            setURLPlay(song.song_signed_url); // Cambiar la URL
             setPlayingSongId(song.id); // Establecer la nueva canción actual
             setIsPlaying(true); // Iniciar la reproducción
             setTimeout(() => playerRef.current.audio.current.play(), 0); // Forzar que reproduzca la nueva canción
@@ -43,7 +44,17 @@ export function AudioPlayerProvider({children}) {
     // Función que se ejecuta cuando el audio termina
     const handleEnded = () => {
         console.log("Terminado!");
+
         setIsPlaying(false);
+
+
+        router.visit(`/songs/${playingSongId}/increment-play-count`, {
+            method: 'post', // O 'get' dependiendo de cómo tengas tu ruta en web.php
+            preserveScroll: true, // Para que no haga scroll al inicio de la página
+            onSuccess: () => {
+                setIsPlaying(false); // Controla la lógica de cuando se termine la canción
+            }
+        });
     };
 
     return (

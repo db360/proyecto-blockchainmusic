@@ -13,6 +13,7 @@ export default function Authenticated({ header, children }) {
 
     const user = usePage().props.auth.user;
 
+
     const { urlPlay, isPlaying, playerRef, handlePlay, handlePause, handleEnded, titleSongPlaying } = useContext(AudioPlayerContext);
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -213,7 +214,7 @@ export default function Authenticated({ header, children }) {
 
             <main>{children}</main>
 
-            <div className="fixed bottom-0 w-full">
+            <div className="fixed bottom-0 w-full transition-all "> {/*translate-y-28 */}
                 <div className="h-6 bg-slate-300">
                     <p className="text-center">{titleSongPlaying}</p>
                 </div>
