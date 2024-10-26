@@ -9,7 +9,7 @@ export default function Dashboard({ success, error }) {
 
     const user = auth.user;
 
-
+    console.log(albums);
 
     return (
         <AuthenticatedLayout

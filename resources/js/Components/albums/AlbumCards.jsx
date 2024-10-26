@@ -4,12 +4,6 @@ export default function AlbumsCards({albums}) {
 
     console.log(albums);
 
-    // Función para convertir gs:// en la URL pública de Firebase Storage
-    const convertGsToHttp = (path) => {
-        const bucket = "blockchain-music-138d8.appspot.com"; // Cambia esto por tu bucket si es necesario
-        const encodedFilePath = encodeURIComponent(path); // Esto codifica los '/' como '%2F'
-        return `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodedFilePath}?alt=media`;
-    };
 
     return (
         albums && albums.length > 0 ? (
@@ -30,7 +24,7 @@ export default function AlbumsCards({albums}) {
                     <div className="relative h-40 m-2.5 overflow-hidden text-white rounded-md">
                         <img
                             className="-translate-y-8 transition-transform duration-500 ease-[cubic-bezier(0.25, 1, 0.5, 1)] transform group-hover:scale-150"
-                            src={convertGsToHttp(album.cover_image)}
+                            src={album.cover_image}
                             alt="investment-seed-round"
                         />
                     </div>

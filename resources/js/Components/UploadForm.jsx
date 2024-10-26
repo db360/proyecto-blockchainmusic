@@ -44,7 +44,6 @@ export default function UploadForm() {
                 titles: [...prevData.titles, currentTitle], // Agrega el título correspondiente
             }));
 
-            setCurrentTitle("");
             e.target.value = ""; // Limpia el input de archivos
 
             console.log("Archivos agregados:", [
@@ -55,12 +54,19 @@ export default function UploadForm() {
             alert("No se seleccionó ningún archivo.");
         }
 
+        setError('files', null);
+
     };
 
     // Método para manejar el cambio de títulos de canciones
     const handleTitleChange = (e) => {
         setError('title', null); // Resetea el título actual
         setCurrentTitle(e.target.value); // Actualizar el título del archivo actual
+
+        setData({
+            ...data,
+            album_title: currentAlbumTitle,
+        });
     };
 
     const handleAlbumTitleChange = (e) => {
@@ -105,10 +111,15 @@ export default function UploadForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log(data);
+        setData('album_title', currentAlbumTitle);
+        console.log(data)
+
+
         post(route("albums.upload"), {
             forceFormData: true, // Inertia convierte automáticamente a FormData si hay archivos
         });
+
+
     };
 
     return (

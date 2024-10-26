@@ -17,18 +17,6 @@ class AlbumController extends Controller
         $firebase = (new Factory)->withServiceAccount(config('firebase.path'))->withDefaultStorageBucket(config('firebase.storage_bucket'));
         $bucket = $firebase->createStorage()->getBucket(config('firebase.storage_bucket'));
 
-        $albumWithCover = $album->cover_image;
-        $coverObject = $bucket->object($albumWithCover);
-        $coverSignedUrl = $coverObject->signedUrl(
-            new \DateTime('+1 hour'),
-            [
-                'version' => 'v4',
-            ]
-            );
-
-        $album->cover_image = $coverSignedUrl;
-
-
 
         // Generar Signed URLs para cada canción
         $songsWithSignedUrls = $album->songs->map(function ($song) use ($bucket) {

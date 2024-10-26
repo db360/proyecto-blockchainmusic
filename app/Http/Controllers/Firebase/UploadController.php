@@ -16,6 +16,13 @@ class UploadController extends Controller
 {
     protected $storage;
 
+    private function convertGsToHttp($path)
+    {
+        $bucket = "blockchain-music-138d8.appspot.com"; // Cambia esto si es necesario
+        $encodedFilePath = urlencode($path); // Codifica el path, convirtiendo las barras en %2F
+        return "https://firebasestorage.googleapis.com/v0/b/{$bucket}/o/{$encodedFilePath}?alt=media";
+    }
+
 
     public function uploadForm()
     {
@@ -57,13 +64,16 @@ class UploadController extends Controller
         $storage = $firebase->createStorage()->getBucket(config('firebase.storage_bucket'));
 
 
+
+
         $imageCoverName = time() . '_' . $imageCover->getClientOriginalName();
         $imagePath = 'images/' . $userId . '/' . $imageCoverName;
         $storage->upload(fopen($imageCover->getPathname(), 'r'), [
             'name' => $imagePath
         ]);
 
-        $newAlbum = Album::create(['user_id' => $userId, 'title' => $albumTitle, 'cover_image' => $imagePath, 'description' => 'description', 'price' => 10, 'release_date' => $fechaMySQL]);
+
+        $newAlbum = Album::create(['user_id' => $userId, 'title' => $albumTitle, 'cover_image' => $this->convertGsToHttp($imagePath) , 'description' => 'description', 'price' => 10, 'release_date' => $fechaMySQL]);
 
         $albumID = $newAlbum->id;
 
