@@ -1,8 +1,9 @@
 {
     "compilerOptions": {
+        "jsx": "react",
         "baseUrl": ".",
         "paths": {
-            "@/*": ["resources/js/*"],
+            "@/*": ["resources/ts/*"],
             "ziggy-js": ["./vendor/tightenco/ziggy"]
         }
     },
