@@ -1,4 +1,4 @@
-import { TexInputRef, TextInputProps } from "@/types/props/componentProps";
+import { TexInputRef, TextInputProps } from "@/types/props/formProps";
 import React from "react";
 
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";

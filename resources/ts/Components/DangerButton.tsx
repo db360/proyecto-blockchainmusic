@@ -1,3 +1,4 @@
+import { DangerButtonTypes } from '@/types/props/formProps';
 import React from 'react';
 
 
@@ -6,7 +7,7 @@ export default function DangerButton({
     disabled,
     children,
     ...props
-}) {
+}: DangerButtonTypes) {
     return (
         <button
             {...props}

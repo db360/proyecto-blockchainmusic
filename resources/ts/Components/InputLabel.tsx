@@ -1,3 +1,4 @@
+import { InputLabelTypes } from '@/types/props/formProps';
 import React from 'react';
 
 export default function InputLabel({
@@ -5,7 +6,7 @@ export default function InputLabel({
     className = '',
     children,
     ...props
-}) {
+}:InputLabelTypes) {
     return (
         <label
             {...props}

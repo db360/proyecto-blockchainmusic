@@ -3,10 +3,11 @@ import React from 'react';
 import { Transition } from '@headlessui/react';
 import { Link } from '@inertiajs/react';
 import { createContext, useContext, useState } from 'react';
+import { DropDownContextType, DropdownLinkProps } from '@/types';
 
-const DropDownContext = createContext();
+const DropDownContext = createContext<DropDownContextType | undefined>(undefined);
 
-const Dropdown = ({ children }) => {
+const Dropdown = ({ children }:React.PropsWithChildren<{}>) => {
     const [open, setOpen] = useState(false);
 
     const toggleOpen = () => {
@@ -20,8 +21,15 @@ const Dropdown = ({ children }) => {
     );
 };
 
-const Trigger = ({ children }) => {
-    const { open, setOpen, toggleOpen } = useContext(DropDownContext);
+const Trigger = ({ children }:React.PropsWithChildren<{}>) => {
+
+    const context = useContext(DropDownContext);
+
+    if (!context) {
+        throw new Error("Trigger must be used within a Dropdown");
+    }
+
+    const { open, setOpen, toggleOpen } = context;
 
     return (
         <>
@@ -42,8 +50,18 @@ const Content = ({
     width = '48',
     contentClasses = 'py-1 bg-white dark:bg-gray-700',
     children,
+}: {
+    align?: 'left' | 'right';
+    width?: '48';
+    contentClasses?: string;
+    children: React.ReactNode;
 }) => {
-    const { open, setOpen } = useContext(DropDownContext);
+    const context = useContext(DropDownContext);
+
+    if (!context) {
+        throw new Error("Content must be used within a Dropdown");
+    }
+    const { open, setOpen } = context;
 
     let alignmentClasses = 'origin-top';
 
@@ -88,9 +106,10 @@ const Content = ({
     );
 };
 
-const DropdownLink = ({ className = '', children, ...props }) => {
+const DropdownLink:React.FC<DropdownLinkProps> = ({ className = '', children, href, ...props }) => {
     return (
         <Link
+            href={href}
             {...props}
             className={
                 'block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-300 dark:hover:bg-gray-800 dark:focus:bg-gray-800 ' +

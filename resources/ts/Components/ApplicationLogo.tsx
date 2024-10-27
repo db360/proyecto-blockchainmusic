@@ -1,6 +1,7 @@
 import React from 'react';
+import { PageProps } from 'vendor/laravel/breeze/stubs/inertia-vue-ts/resources/js/types';
 
-export default function ApplicationLogo(props) {
+export default function ApplicationLogo(props:PageProps) {
     return (
         <svg
             {...props}

@@ -1,3 +1,4 @@
+import { InertiaLinkProps } from "@inertiajs/react";
 
 // Album related types
 export interface Album {
@@ -13,6 +14,10 @@ export interface Album {
     user?: User;
     songs?: Song[];
     purchases?: Purchase[];
+}
+
+export interface Albums {
+    albums: Album[]
 }
 
 
@@ -58,7 +63,7 @@ export interface CreateAlbumData {
 }
 
 export interface UpdateAlbumData extends Partial<CreateAlbumData> {
-    
+
 }
 
 // Page Props types
@@ -70,3 +75,14 @@ export interface AlbumsPageProps {
     albums: Album[];
 }
 
+// Define el tipo para el contexto
+export interface DropDownContextType {
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    toggleOpen: () => void;
+}
+
+export interface DropdownLinkProps extends InertiaLinkProps {
+    className?: string;
+    children: React.ReactNode;
+}

@@ -1,3 +1,4 @@
+import { SecondaryButtonTypes } from '@/types/props/formProps';
 import React from 'react';
 
 export default function SecondaryButton({
@@ -6,7 +7,7 @@ export default function SecondaryButton({
     disabled,
     children,
     ...props
-}) {
+}:SecondaryButtonTypes) {
     return (
         <button
             {...props}

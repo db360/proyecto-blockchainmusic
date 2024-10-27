@@ -1,7 +1,8 @@
+import { InputErrorTypes } from '@/types/props/formProps';
 import React from 'react';
 
 
-export default function InputError({ message, className = '', ...props }) {
+export default function InputError({ message, className = '', ...props }:InputErrorTypes) {
     return message ? (
         <p
             {...props}

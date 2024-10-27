@@ -79,7 +79,7 @@ export default function UploadForm() {
 
     // Método para manejar el cambio de imagen
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        
+
         if (!e.target.files) return; // Add null check
         const selectedImage = e.target.files[0];
 
@@ -135,7 +135,7 @@ export default function UploadForm() {
             className="p-4 w-10/12 m-auto"
         >
             <div className="w-full">
-                <InputLabel htmlFor="album_title" value="Título del album" children={undefined} />
+                <InputLabel htmlFor="album_title" value="Título del album" />
                 <TextInput
                     className="mt-1 block w-full"
                     id="album_title"

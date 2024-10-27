@@ -1,9 +1,7 @@
+import { Albums } from "@/types";
 import { Link } from "@inertiajs/react";
 
-export default function AlbumsCards({albums}) {
-
-    console.log(albums);
-
+export default function AlbumsCards({albums}:Albums) {
 
     return (
         albums && albums.length > 0 ? (
